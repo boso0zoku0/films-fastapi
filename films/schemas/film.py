@@ -48,7 +48,7 @@ ShortAnnotated_slug = Annotated[str, MaxLen(30)]
 class FilmsBase(BaseModel):
     name: str
     target_url: AnyHttpUrl
-    description: ShortAnnotated_description | None = ""
+    description: ShortAnnotated_description
     year_release: int
 
 
@@ -62,14 +62,14 @@ class Films(FilmsBase):
     slug: ShortAnnotated_slug
 
 
-class FilmsRead(FilmsCreate):
-    pass
+class FilmsRead(FilmsBase):
+    slug: str
 
 
 class FilmsUpdate(BaseModel):
     name: str
     target_url: AnyHttpUrl
-    description: ShortAnnotated_description | None = ""
+    description: ShortAnnotated_description
     year_release: int
 
 
