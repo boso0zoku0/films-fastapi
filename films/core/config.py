@@ -3,7 +3,7 @@ from os import getenv
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SHORT_URLS_STORAGE_FILEPATH = BASE_DIR / "films.json"
+FILMS_STORAGE_FILEPATH = BASE_DIR / "film.json"
 
 
 LOG_LEVEL = logging.INFO
@@ -33,4 +33,4 @@ REDIS_DB_FILMS = 4
 
 REDIS_TOKENS_NAME = "tokens"
 REDIS_USERS_NAME = "users"
-REDIS_FILMS_HASH_NAME = "films"
+REDIS_FILMS_HASH_NAME = "film"
