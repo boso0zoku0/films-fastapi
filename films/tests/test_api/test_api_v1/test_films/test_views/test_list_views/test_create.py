@@ -7,25 +7,6 @@ from main import app
 from tests.test_api.conftest import film
 
 
-#
-# def test_create_short_url(client: TestClient) -> None:
-#     url = app.url_path_for("create_short_url")
-#     data = ShortUrlCreate(
-#         target_url="https://example.com",
-#         description="A short url",
-#         slug="".join(choices(string.ascii_letters, k=8))).model_dump(mode="json")
-#     response = client.post(url=url, json=data)
-#     response_data = response.json()
-#     received_data = {
-#         "target_url": data["target_url"],
-#         "description": data["description"],
-#         "slug": data["slug"],
-#     }
-#     assert data == recei
-
-
-
-
 def test_create_film(client: TestClient):
     url = app.url_path_for("create_film")
     data = FilmsCreate(

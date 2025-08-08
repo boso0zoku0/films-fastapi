@@ -18,7 +18,16 @@ def create_film(slug: str) -> FilmsCreate:
     return storage.create_film(film_in)
 
 
-@pytest.fixture()
+# @pytest.fixture()
+# def film() -> Generator[FilmsCreate]:
+#     film = create_film(slug="some-slug")
+#     yield film
+#     storage.delete(film)
+#
+
+@pytest.fixture(params=[
+    pytest.param("abc", id="min slug"),
+])
 def film() -> Generator[FilmsCreate]:
     film = create_film(slug="some-slug")
     yield film
