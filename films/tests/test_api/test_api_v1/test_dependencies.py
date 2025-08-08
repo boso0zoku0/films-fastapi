@@ -1,6 +1,6 @@
 from unittest import TestCase
 from api.api_v1.dependencies import prefetch_url_film, UNSAFE_METHODS
-from api.api_v1.films.crud import storage
+from api.api_v1.film.crud import storage
 
 
 class DependsTestCase(TestCase):
