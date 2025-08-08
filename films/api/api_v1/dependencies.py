@@ -14,7 +14,7 @@ from fastapi.security import (
 
 from api.api_v1.auth.services.redis_tokens_helper import db_redis_tokens
 from api.api_v1.auth.services.redis_users_helper import db_redis_users
-from api.api_v1.films.crud import storage as film_storage
+from api.api_v1.film.crud import storage as film_storage
 from schemas.film import FilmsRead
 
 log = logging.getLogger(__name__)
