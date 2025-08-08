@@ -7,7 +7,7 @@ from unittest import TestCase
 import pytest
 
 from schemas.film import Films, FilmsCreate, FilmsUpdate, FilmsUpdatePartial, FilmsRead
-from api.api_v1.films.crud import storage, FilmsAlreadyExistsError
+from api.api_v1.film.crud import storage, FilmsAlreadyExistsError
 
 
 def creation_film() -> Films:
