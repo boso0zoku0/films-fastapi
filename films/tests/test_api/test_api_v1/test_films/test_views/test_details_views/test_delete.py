@@ -1,0 +1,31 @@
+from collections.abc import Generator
+
+import pytest
+from starlette import status
+from starlette.testclient import TestClient
+from api.api_v1.film.crud import storage
+from schemas.film import FilmsRead, FilmsCreate
+from main import app
+
+def create_film(slug: str) -> FilmsCreate:
+    film_in = FilmsCreate(
+        name="dwq",
+        target_url="https://example.com",
+        description="A film",
+        year_release=1999,
+        slug=slug
+)
+    return storage.create_film(film_in)
+
+
+@pytest.fixture()
+def film() -> Generator[FilmsCreate]:
+    film = create_film(slug="some-slug")
+    yield film
+    storage.delete(film)
+
+def test_delete_film(film: FilmsCreate, auth_client: TestClient):
+    url = app.url_path_for("delete_film", slug=film.slug)
+    response = auth_client.delete(url=url)
+    assert response.status_code == status.HTTP_204_NO_CONTENT, response.text
+    assert not storage.exists(film.slug)
