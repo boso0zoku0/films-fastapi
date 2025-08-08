@@ -11,7 +11,6 @@ def test_create_film(client: TestClient):
     url = app.url_path_for("create_film")
     data = FilmsCreate(
         name="dwq",
-        target_url="https://example.com",
         description="A film",
         year_release=1999,
         slug="".join(
@@ -26,7 +25,6 @@ def test_create_film(client: TestClient):
     response_data = response.json()
     received_data = {
         "name": data["name"],
-        "target_url": data["target_url"],
         "description": data["description"],
         "year_release": data["year_release"],
         "slug": data["slug"],
@@ -36,7 +34,7 @@ def test_create_film(client: TestClient):
 
 def test_create_movie_already_exists(film: FilmsRead, auth_client: TestClient) -> None:
     data = FilmsRead(**film.model_dump())
-    json = film.model_dump(mode="json")
+    json = data.model_dump(mode="json")
     url = app.url_path_for("create_film")
     response = auth_client.post(url=url, json=json)
     response_json = response.json()

@@ -1,6 +1,7 @@
 from collections.abc import Generator
 
 import pytest
+from _pytest.fixtures import SubRequest
 from starlette import status
 from starlette.testclient import TestClient
 from api.api_v1.film.crud import storage
@@ -27,11 +28,10 @@ def create_film(slug: str) -> FilmsCreate:
 
 @pytest.fixture(params=[
     pytest.param("abc", id="min slug"),
+    pytest.param("abcqweasdq", id="max slug"),
 ])
-def film() -> Generator[FilmsCreate]:
-    film = create_film(slug="some-slug")
-    yield film
-    storage.delete(film)
+def film(request: SubRequest) -> Generator[FilmsCreate]:
+    return create_film(request.param)
 
 def test_delete_film(film: FilmsCreate, auth_client: TestClient):
     url = app.url_path_for("delete_film", slug=film.slug)
