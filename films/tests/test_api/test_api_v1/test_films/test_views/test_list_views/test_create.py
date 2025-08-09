@@ -1,7 +1,14 @@
 import string
 import random
+from http.client import responses
+from typing import Any
+
+import pytest
+from _pytest.fixtures import SubRequest
 from fastapi.testclient import TestClient
 from fastapi import status
+
+from api.api_v1.film.crud import storage
 from schemas.film import FilmsCreate, FilmsRead
 from main import app
 from tests.test_api.conftest import film
@@ -41,3 +48,56 @@ def test_create_movie_already_exists(film: FilmsRead, auth_client: TestClient) -
     assert response.status_code == status.HTTP_409_CONFLICT, response.text
     expected_error = f"Film with slug={film.slug} already exists"
     assert response_json["detail"] == expected_error, response.text
+    
+    
+    
+    
+    
+    
+
+def build_film_create(slug: str) -> FilmsRead:
+    return FilmsRead(
+        slug=slug,
+        name="dwq",
+        description="A film",
+        year_release=1999,
+        
+    )
+
+def build_film_create_random_slug() -> FilmsRead:
+    return build_film_create(slug="".join(random.choices(string.ascii_letters, k=4)))
+
+def film_create(slug: str) -> FilmsRead:
+    film = build_film_create(slug)
+    return storage.create_film(film)
+
+def film_create_random_slug() -> FilmsRead:
+    film = build_film_create_random_slug()
+    return storage.create_film(film)
+
+
+class TestCreateInvalid:
+    @pytest.fixture(params=[
+        pytest.param(("a", "string_too_short"), id="too-short"),
+        pytest.param(("foo-bar-spam-eggs", "string_too_long"), id="too-long"),
+    ],
+    )
+    def film_values(self, request: SubRequest) -> tuple[dict[str, Any], str]:
+        build = build_film_create_random_slug()
+        build_json = build.model_dump(mode="json")
+        slug, error = request.param
+        build_json["slug"] = slug
+        return build_json, error
+    
+    def test_invalid_create_film(
+        self,
+        auth_client: TestClient,
+        film_values: tuple[dict[str, Any], str]):
+        url = app.url_path_for("create_film")
+        data, error = film_values
+        response = auth_client.post(url=url, json=data)
+        assert (response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY), response.text
+        error_detail = response.json()["detail"][0]
+        assert error_detail["type"] == error, error_detail
+
+    
