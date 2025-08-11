@@ -55,15 +55,15 @@ class FilmsStorage(BaseModel):
         )
 
     @classmethod
-    def get_by_slug(cls, slug: str) -> FilmsRead | None:
+    def get_by_slug(cls, slug: str) -> FilmsCreate | None:
         get_data = cast(
             str | None, redis.hget(name=config.REDIS_FILMS_HASH_NAME, key=slug)
         )
         if get_data:
-            return FilmsRead.model_validate_json(get_data)
+            return FilmsCreate.model_validate_json(get_data)
         return None
 
-    def create_film(self, create_films: FilmsCreate) -> FilmsRead:
+    def create_film(self, create_films: FilmsCreate) -> FilmsCreate:
         add_film = FilmsRead(**create_films.model_dump())
         self.save_films(add_film)
         log.info("Created film: %s", add_film)
@@ -73,7 +73,7 @@ class FilmsStorage(BaseModel):
     def exists(cls, slug: str) -> bool:
         return cast(bool, redis.hexists(name=config.REDIS_FILMS_HASH_NAME, key=slug))
 
-    def create_or_raise_if_exists(self, film: FilmsCreate) -> FilmsRead:
+    def create_or_raise_if_exists(self, film: FilmsCreate) -> FilmsCreate:
         if not self.exists(film.slug):
             return storage.create_film(film)
         raise FilmsAlreadyExistsError(film.slug)
@@ -86,7 +86,7 @@ class FilmsStorage(BaseModel):
     def delete(self, film_url: FilmsRead) -> None:
         return self.delete_by_slug(slug=film_url.slug)
 
-    def update(self, film: FilmsRead, film_update: FilmsUpdate) -> FilmsRead:
+    def update(self, film: FilmsRead, film_update: FilmsUpdate) -> FilmsCreate:
         for k, v in film_update:
             setattr(film, k, v)
         self.save_films(film)
@@ -95,7 +95,7 @@ class FilmsStorage(BaseModel):
 
     def update_partial(
         self, film: FilmsRead, film_update_partial: FilmsUpdatePartial
-    ) -> FilmsRead:
+    ) -> FilmsCreate:
         for k, v in film_update_partial.model_dump(exclude_unset=True).items():
             setattr(film, k, v)
         self.save_films(film)
