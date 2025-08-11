@@ -3,9 +3,9 @@ from typing import Annotated
 from annotated_types import MaxLen, MinLen
 from pydantic import BaseModel, AnyHttpUrl
 
-Film_Annotated_description = Annotated[str, MaxLen(50)]
+Film_Annotated_description = Annotated[str, MaxLen(110)]
 Film_Annotated_slug = Annotated[str, MinLen(3), MaxLen(7)]
-
+DESCRIPTION_MAX_LENGTH = 110
 
 # class FilmsBase(BaseModel):
 #     name: str
