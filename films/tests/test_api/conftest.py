@@ -1,3 +1,5 @@
+import random
+import string
 from typing import Generator
 
 import pytest
@@ -25,23 +27,12 @@ def auth_client(generate_token: str) -> Generator[TestClient]:
     headers = {"Authorization": f"Bearer {generate_token}"}
     with TestClient(app=app, headers=headers) as client:
         yield client
-""""
 
-    def create_film(self, create_films: FilmsCreate) -> FilmsRead:
-        add_film = FilmsRead(**create_films.model_dump())
-        self.save_films(add_film)
-        log.info("Created film: %s", add_film)
-        return add_film
-            name: str
-    target_url: AnyHttpUrl
-    description: ShortAnnotated_description
-    year_release: int
-    
-"""
+
+
 def create_film() -> FilmsRead:
     film_in = FilmsRead(
         name="film",
-        target_url="http://example.com",
         description="A film",
         year_release=1,
         slug="film",
@@ -55,3 +46,25 @@ def film() -> Generator[FilmsRead]:
     yield film
     storage.delete(film)
     
+
+def build_film_create(slug: str, description: str = "A short url", year_release: int = 2000) -> FilmsCreate:
+    return FilmsCreate(
+        slug=slug,
+        name="qweabc",
+        description=description,
+        year_release=year_release
+    )
+
+def create_film_exists(slug: str, year_release: int = 2000, description: str = "A short url") -> FilmsCreate:
+    film = build_film_create(slug=slug, description=description, year_release=year_release)
+    return storage.create_film(film)
+
+
+def build_film_create_random_slug(description: str = "A short url", year_release: int = 2000) -> FilmsCreate:
+    return build_film_create(slug=''.join(random.choices(string.ascii_letters, k=5)),
+                             description=description,
+                             year_release=year_release)
+
+def film_create_random_slug(description: str = "A short url", year_release: int = 2000) -> FilmsCreate:
+    short_url = build_film_create_random_slug(description=description, year_release=year_release)
+    return storage.create_or_raise_if_exists(short_url)
