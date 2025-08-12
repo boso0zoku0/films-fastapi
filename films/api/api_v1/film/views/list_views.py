@@ -58,3 +58,8 @@ def create_film(film_create: FilmsCreate) -> FilmsRead | None:
             status_code=status.HTTP_409_CONFLICT,
             detail=f"Film with slug={film_create.slug} already exists",
         )
+
+
+@router.post("/transfer")
+def transfer_short_url() -> dict[str, str]:
+    return {"hello": "world"}
