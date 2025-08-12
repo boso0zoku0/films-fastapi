@@ -1,12 +1,14 @@
 from typing import Annotated
 
-from annotated_types import MaxLen, MinLen
+from annotated_types import MaxLen, MinLen, Len
 from pydantic import BaseModel, AnyHttpUrl
 
-Film_Annotated_description = Annotated[str, MaxLen(110)]
-Film_Annotated_slug = Annotated[str, MinLen(3), MaxLen(7)]
-DESCRIPTION_MAX_LENGTH = 110
-
+# Film_Annotated_description = Annotated[str, MaxLen(110)]
+# Film_Annotated_slug = Annotated[str, MinLen(3), MaxLen(7)]
+# DESCRIPTION_MAX_LENGTH = 110
+Film_Annotated_slug = Annotated[str, Len(min_length=3, max_length=8)]
+Film_Annotated_description = Annotated[str, MaxLen(30), MinLen(0)]
+DESCRIPTION_MAX_LENGTH = 30
 # class FilmsBase(BaseModel):
 #     name: str
 #     target_url: AnyHttpUrl

@@ -28,7 +28,7 @@ def create_film(slug: str) -> FilmsCreate:
 
 @pytest.fixture(params=[
     pytest.param("abc", id="min slug"),
-    pytest.param("abcqweasdq", id="max slug"),
+    pytest.param("abcqwasw", id="max slug"),
 ])
 def film(request: SubRequest) -> Generator[FilmsCreate]:
     return create_film(request.param)

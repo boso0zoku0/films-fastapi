@@ -104,11 +104,11 @@ class FilmsComplicatedTestCase(TestCase):
 
         with self.assertRaisesRegex(
             ValidationError,
-            expected_regex="String should have at most 50 characters",
+            expected_regex="String should have at most 30 characters",
         ) as exc_info:
             FilmsCreate(
                 name="test_film",
-                description="This string contains more than thirty alphabetic characters.",
+                description="This string contains more than thirty.",
                 year_release=1999,
             )
 
