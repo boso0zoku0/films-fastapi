@@ -8,14 +8,17 @@ from api.api_v1.film.crud import storage
 from schemas.film import FilmsRead, FilmsCreate
 from main import app
 
+pytestmark = pytest.mark.apitest
+
+
 def create_film(slug: str) -> FilmsCreate:
     film_in = FilmsCreate(
         name="dwq",
         target_url="https://example.com",
         description="A film",
         year_release=1999,
-        slug=slug
-)
+        slug=slug,
+    )
     return storage.create_film(film_in)
 
 
@@ -26,12 +29,16 @@ def create_film(slug: str) -> FilmsCreate:
 #     storage.delete(film)
 #
 
-@pytest.fixture(params=[
-    pytest.param("abc", id="min slug"),
-    pytest.param("abcqwasw", id="max slug"),
-])
+
+@pytest.fixture(
+    params=[
+        pytest.param("abc", id="min slug"),
+        pytest.param("abcqwasw", id="max slug"),
+    ]
+)
 def film(request: SubRequest) -> Generator[FilmsCreate]:
     return create_film(request.param)
+
 
 def test_delete_film(film: FilmsCreate, auth_client: TestClient):
     url = app.url_path_for("delete_film", slug=film.slug)
