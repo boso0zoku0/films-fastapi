@@ -7,7 +7,7 @@ omit =
     stuff.py
 
 [report]
-; Don’t report files that have no executable code (such as __init__.py files).
+
 skip_empty = on
 
 ; Regexes for lines to exclude from consideration

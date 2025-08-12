@@ -60,7 +60,7 @@ def create_film_exists(slug: str, year_release: int = 2000, description: str = "
     return storage.create_film(film)
 
 
-def build_film_create_random_slug(description: str = "A short url", year_release: int = 2000) -> FilmsCreate:
+def build_film_create_random_slug(description: str = "A short url", year_release: int = 2000,) -> FilmsCreate:
     return build_film_create(slug=''.join(random.choices(string.ascii_letters, k=5)),
                              description=description,
                              year_release=year_release)
