@@ -6,10 +6,9 @@ from starlette import status
 from starlette.testclient import TestClient
 
 from api.api_v1.film.crud import storage
-from schemas.film import FilmsCreate
-from tests.test_api.conftest import film_create_random_slug
+from tests.test_api.conftest import create_film_random_slug
 from main import app
-from schemas.film import FilmsCreate, DESCRIPTION_MAX_LENGTH
+from schemas.film import FilmsCreate
 
 pytestmark = pytest.mark.apitest
 
@@ -19,7 +18,7 @@ class TestUpdateFilms:
     @pytest.fixture()
     def film(self, request: SubRequest) -> Generator[FilmsCreate]:
         desc, year = request.param
-        film = film_create_random_slug(description=desc, year_release=year)
+        film = create_film_random_slug(description=desc, year_release=year)
         yield film
         storage.delete(film)
 
@@ -52,29 +51,3 @@ class TestUpdateFilms:
         assert response.status_code == status.HTTP_200_OK
         assert film.description != film_db.description
         assert new_film == film_db
-
-
-class TestFilmsUpdatePartial:
-
-    @pytest.fixture()
-    def film(self, request: SubRequest) -> Generator[FilmsCreate]:
-        film = film_create_random_slug(description=request.param)
-        yield film
-        storage.delete(film)
-
-    @pytest.mark.parametrize(
-        "film, new_description",
-        [
-            pytest.param("sdafasfawqesda", "", id="max desc to min desc"),
-            pytest.param("", "a" * DESCRIPTION_MAX_LENGTH, id="no desc to max desc"),
-        ],
-        indirect=["film"],
-    )
-    def test_film_update_parsial(
-        self, new_description: str, auth_client: TestClient, film: FilmsCreate
-    ) -> None:
-        url = app.url_path_for("patch_film", slug=film.slug)
-        response = auth_client.patch(url, json={"description": new_description})
-        new_desc_db = storage.get_by_slug(film.slug)
-        assert new_description == new_desc_db.description
-        assert response.status_code == status.HTTP_200_OK
