@@ -2,35 +2,39 @@
 
 ## Develop
 
-Setup:
-Right click '[url-shortener]' -> Sources Root
+### Setup
+
+Right click `url-shortener` -> Mark Directory as -> Sources Root
 
 
-## Configure pre-commit
+### Install depencies
+
+Install all packages:
+```shell
+uv sync
+```
+
+### Configure pre-commit
 
 Install pre-commit hook:
-'''
-shell
+```shell
 pre-commit install
-'''
-
-
-
+```
 
 ### Run
 
 Go to workdir:
-'''shell
+```shell
 cd url-shortener
-'''
-
+```
 
 Run dev server:
-'''shell
+```shell
 fastapi dev
-'''
+```
 
 ## Snippets
-'''shell
+
+```shell
 python -c 'import secrets;print(secrets.token_urlsafe(16))'
-'''
+```
