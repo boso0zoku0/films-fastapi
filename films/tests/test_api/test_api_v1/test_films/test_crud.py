@@ -1,7 +1,7 @@
 import string
 import random
 from collections.abc import Generator
-from typing import ClassVar, Any, cast
+from typing import ClassVar
 from unittest import TestCase
 
 import pytest
