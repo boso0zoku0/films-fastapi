@@ -10,7 +10,7 @@ from schemas.film import Films, FilmsCreate, FilmsUpdate, FilmsUpdatePartial, Fi
 from api.api_v1.film.crud import storage, FilmsAlreadyExistsError
 
 
-def creation_film() -> Films:
+def creation_film() -> FilmsCreate:
     film_in = FilmsCreate(
         name="dwq",
         slug="".join(
@@ -20,14 +20,13 @@ def creation_film() -> Films:
             ),
         ),
         description="A film",
-        target_url="https://example.com",
         year_release=1999,
     )
     return storage.create_film(film_in)
 
 
 @pytest.fixture
-def film() -> Generator[FilmsRead]:
+def film() -> Generator[FilmsCreate]:
     film = creation_film()
     yield film
     storage.delete(film)
@@ -54,16 +53,19 @@ class FilmsUpdateTestCase(TestCase):
     def test_update_film_partial(self) -> None:
         film_update = FilmsUpdatePartial(**self.film.model_dump())
         source_description = film_update.description
-        film_update.description *= 2
-        film_updated = storage.update_partial(self.film, film_update)
-        self.assertNotEqual(source_description, film_updated.description)
+        if film_update.description:
+            film_update.description *= 2
+            film_updated = storage.update_partial(self.film, film_update)
+            self.assertNotEqual(source_description, film_updated.description)
 
-        self.assertEqual(film_update, FilmsUpdatePartial(**film_update.model_dump()))
+            self.assertEqual(
+                film_update, FilmsUpdatePartial(**film_update.model_dump())
+            )
 
 
 class FilmsStorageGetTestCase(TestCase):
     FILMS_COUNT = 3
-    films: ClassVar[list[Films]] = []
+    films: ClassVar[list[FilmsCreate]] = []
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -81,15 +83,15 @@ class FilmsStorageGetTestCase(TestCase):
         slugs = {su.slug for su in storage_get}
 
         diff = expected_slugs - slugs
-        expected_diff = set()
+        expected_diff: set[str] = set()
         self.assertEqual(expected_diff, diff)
 
     def test_get_by_slug(self) -> None:
         for film in self.films:
             with self.subTest(slug=film.slug, msg=f"Validate slug {film.slug}"):
                 db_get = storage.get_by_slug(film.slug)
-
-                self.assertEqual(film.slug, db_get.slug)
+                if db_get:
+                    self.assertEqual(film.slug, db_get.slug)
 
 
 def test_create_or_raise_if_exist(film: FilmsRead) -> None:

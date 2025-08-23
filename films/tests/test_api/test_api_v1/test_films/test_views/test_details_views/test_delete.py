@@ -22,25 +22,17 @@ def create_film(slug: str) -> FilmsCreate:
     return storage.create_film(film_in)
 
 
-# @pytest.fixture()
-# def film() -> Generator[FilmsCreate]:
-#     film = create_film(slug="some-slug")
-#     yield film
-#     storage.delete(film)
-#
-
-
 @pytest.fixture(
     params=[
         pytest.param("abc", id="min slug"),
         pytest.param("abcqwasw", id="max slug"),
     ]
 )
-def film(request: SubRequest) -> Generator[FilmsCreate]:
+def film(request: SubRequest) -> FilmsCreate:
     return create_film(request.param)
 
 
-def test_delete_film(film: FilmsCreate, auth_client: TestClient):
+def test_delete_film(film: FilmsCreate, auth_client: TestClient) -> None:
     url = app.url_path_for("delete_film", slug=film.slug)
     response = auth_client.delete(url=url)
     assert response.status_code == status.HTTP_204_NO_CONTENT, response.text

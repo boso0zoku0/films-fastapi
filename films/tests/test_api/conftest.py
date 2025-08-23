@@ -31,8 +31,8 @@ def auth_client(generate_token: str) -> Generator[TestClient]:
         yield client
 
 
-def create_film() -> FilmsRead:
-    film_in = FilmsRead(
+def create_film() -> FilmsCreate:
+    film_in = FilmsCreate(
         name="film",
         description="A film",
         year_release=1,
@@ -42,7 +42,7 @@ def create_film() -> FilmsRead:
 
 
 @pytest.fixture()
-def film() -> Generator[FilmsRead]:
+def film() -> Generator[FilmsCreate]:
     film = create_film()
     yield film
     storage.delete(film)
@@ -83,26 +83,3 @@ def create_film_random_slug(
         description=description, year_release=year_release
     )
     return storage.create_or_raise_if_exists(short_url)
-
-
-# def build_film_create(slug: str, description: str = "A short url", year_release: int = 2000) -> FilmsRead:
-#     return FilmsRead(
-#         slug=slug,
-#         name="dwq",
-#         description=description,
-#         year_release=year_release,
-#     )
-#
-#
-# def build_film_create_random_slug() -> FilmsRead:
-#     return build_film_create(slug="".join(random.choices(string.ascii_letters, k=4)))
-#
-#
-# def film_create(slug: str) -> FilmsRead:
-#     film = build_film_create(slug)
-#     return storage.create_film(film)
-#
-#
-# def film_create_random_slug() -> FilmsRead:
-#     film = build_film_create_random_slug()
-#     return storage.create_film(film)

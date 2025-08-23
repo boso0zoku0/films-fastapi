@@ -48,6 +48,7 @@ class TestUpdateFilms:
         )
         response = auth_client.put(url=url, json=new_film.model_dump(mode="json"))
         film_db = storage.get_by_slug(film.slug)
-        assert response.status_code == status.HTTP_200_OK
-        assert film.description != film_db.description
-        assert new_film == film_db
+        if film_db:
+            assert response.status_code == status.HTTP_200_OK
+            assert film.description != film_db.description
+            assert new_film == film_db

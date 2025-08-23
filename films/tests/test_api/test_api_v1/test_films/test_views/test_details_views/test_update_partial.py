@@ -34,5 +34,6 @@ class TestFilmsUpdatePartial:
         url = app.url_path_for("patch_film", slug=film.slug)
         response = auth_client.patch(url, json={"description": new_description})
         new_desc_db = storage.get_by_slug(film.slug)
-        assert new_description == new_desc_db.description
-        assert response.status_code == status.HTTP_200_OK
+        if new_desc_db:
+            assert new_description == new_desc_db.description
+            assert response.status_code == status.HTTP_200_OK

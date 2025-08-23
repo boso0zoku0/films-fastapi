@@ -12,7 +12,7 @@ from main import app
 from tests.test_api.conftest import film, build_film_create_random_slug
 
 
-def test_create_film(caplog: pytest.LogCaptureFixture, auth_client: TestClient):
+def test_create_film(caplog: pytest.LogCaptureFixture, auth_client: TestClient) -> None:
     caplog.set_level(logging.INFO)
     url = app.url_path_for("create_film")
     film = FilmsCreate(
@@ -67,7 +67,7 @@ class TestCreateInvalid:
 
     def test_invalid_create_film(
         self, auth_client: TestClient, film_values: tuple[dict[str, Any], str]
-    ):
+    ) -> None:
         url = app.url_path_for("create_film")
         data, error = film_values
         response = auth_client.post(url=url, json=data)

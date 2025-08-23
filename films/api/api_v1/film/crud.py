@@ -37,7 +37,7 @@ class FilmsStorage(BaseModel):
     slug_by_films: dict[str, FilmsRead] = {}
 
     @classmethod
-    def save_films(cls, film: FilmsRead) -> None:
+    def save_films(cls, film: FilmsCreate) -> None:
         redis.hset(
             name=config.REDIS_FILMS_HASH_NAME,
             key=film.slug,
@@ -64,7 +64,7 @@ class FilmsStorage(BaseModel):
         return None
 
     def create_film(self, create_films: FilmsCreate) -> FilmsCreate:
-        add_film = FilmsRead(**create_films.model_dump())
+        add_film = FilmsCreate(**create_films.model_dump())
         self.save_films(add_film)
         log.info("Created film: %s", add_film)
         return add_film
@@ -83,10 +83,10 @@ class FilmsStorage(BaseModel):
         redis.hdel(config.REDIS_FILMS_HASH_NAME, slug)
         log.info("Deleted film: %s", slug)
 
-    def delete(self, film_url: FilmsRead) -> None:
+    def delete(self, film_url: FilmsCreate) -> None:
         return self.delete_by_slug(slug=film_url.slug)
 
-    def update(self, film: FilmsRead, film_update: FilmsUpdate) -> FilmsCreate:
+    def update(self, film: FilmsCreate, film_update: FilmsUpdate) -> FilmsCreate:
         for k, v in film_update:
             setattr(film, k, v)
         self.save_films(film)
@@ -94,7 +94,7 @@ class FilmsStorage(BaseModel):
         return film
 
     def update_partial(
-        self, film: FilmsRead, film_update_partial: FilmsUpdatePartial
+        self, film: FilmsCreate, film_update_partial: FilmsUpdatePartial
     ) -> FilmsCreate:
         for k, v in film_update_partial.model_dump(exclude_unset=True).items():
             setattr(film, k, v)

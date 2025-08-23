@@ -44,9 +44,6 @@ DESCRIPTION_MAX_LENGTH = 30
 #     year_release: int | None = None
 
 
-
-
-
 class FilmsBase(BaseModel):
     name: str
     description: Film_Annotated_description
@@ -54,7 +51,7 @@ class FilmsBase(BaseModel):
 
 
 class FilmsCreate(FilmsBase):
-    slug: Film_Annotated_slug | None = None
+    slug: Film_Annotated_slug
 
 
 class Films(FilmsBase):
@@ -63,7 +60,7 @@ class Films(FilmsBase):
 
 
 class FilmsRead(FilmsBase):
-    slug: Film_Annotated_slug | None = None
+    slug: Film_Annotated_slug
 
 
 class FilmsUpdate(BaseModel):

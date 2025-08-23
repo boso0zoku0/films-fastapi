@@ -50,7 +50,7 @@ def show_films() -> list[FilmsRead]:
         },
     },
 )
-def create_film(film_create: FilmsCreate) -> FilmsRead | None:
+def create_film(film_create: FilmsCreate) -> FilmsCreate | None:
     try:
         return storage.create_or_raise_if_exists(film_create)
     except FilmsAlreadyExistsError:

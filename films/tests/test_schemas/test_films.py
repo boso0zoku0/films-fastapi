@@ -10,6 +10,7 @@ class FilmsTestCase(TestCase):
     def test_film_can_be_created_from_create_scheme(self) -> None:
         film_in = FilmsCreate(
             name="Matrix",
+            slug="matrix",
             description="Is film Matrix",
             year_release=2000,
         )
@@ -71,6 +72,7 @@ class FilmsComplicatedTestCase(TestCase):
             with self.subTest(name=name, msg=f"added name: {name}"):
                 film_in = FilmsCreate(
                     name=name,
+                    slug="qweabc",
                     description="Is new film",
                     year_release=1999,
                 )
@@ -96,6 +98,7 @@ class FilmsComplicatedTestCase(TestCase):
         with self.assertRaises(ValidationError):
             FilmsCreate(
                 name="test_film",
+                slug="qweabc",
                 description="This string contains more than thirty alphabetic characters.",
                 year_release=1999,
             )
@@ -108,6 +111,7 @@ class FilmsComplicatedTestCase(TestCase):
         ) as exc_info:
             FilmsCreate(
                 name="test_film",
+                slug="qweabc",
                 description="This string contains more than thirty.",
                 year_release=1999,
             )
