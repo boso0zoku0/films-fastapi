@@ -1,12 +1,12 @@
 from typing import Annotated, cast
 
 from fastapi import APIRouter, Depends
+from schemas import FilmsCreate
+from schemas.film import FilmsRead, FilmsUpdate, FilmsUpdatePartial
 from starlette import status
 
 from api.api_v1.dependencies import prefetch_url_film
 from api.api_v1.film.crud import storage
-from schemas import FilmsCreate
-from schemas.film import FilmsRead, FilmsUpdate, FilmsUpdatePartial
 
 router = APIRouter(
     prefix="/{slug}",

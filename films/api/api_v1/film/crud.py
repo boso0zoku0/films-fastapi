@@ -3,10 +3,9 @@ __all__ = ("storage", "FilmsAlreadyExistsError")
 import logging
 from typing import cast
 
+from core import config
 from pydantic import BaseModel
 from redis import Redis
-
-from core import config
 from schemas.film import (
     FilmsCreate,
     FilmsRead,

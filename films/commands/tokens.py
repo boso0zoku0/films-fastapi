@@ -3,10 +3,9 @@ __app__ = "app"
 from typing import Annotated
 
 import typer
+from api.api_v1.auth.services.redis_tokens_helper import db_redis_tokens
 from rich import print
 from rich.markdown import Markdown
-
-from api.api_v1.auth.services.redis_tokens_helper import db_redis_tokens
 
 app = typer.Typer(
     name="tokens",

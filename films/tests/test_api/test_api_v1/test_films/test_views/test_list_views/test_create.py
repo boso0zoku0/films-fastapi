@@ -1,15 +1,16 @@
 import logging
-import string
 import random
+import string
 from typing import Any
 
 import pytest
 from _pytest.fixtures import SubRequest
-from fastapi.testclient import TestClient
 from fastapi import status
-from schemas.film import FilmsCreate, FilmsRead
+from fastapi.testclient import TestClient
 from main import app
-from tests.test_api.conftest import film, build_film_create_random_slug
+from schemas.film import FilmsCreate, FilmsRead
+
+from tests.test_api.conftest import build_film_create_random_slug, film
 
 
 def test_create_film(caplog: pytest.LogCaptureFixture, auth_client: TestClient) -> None:

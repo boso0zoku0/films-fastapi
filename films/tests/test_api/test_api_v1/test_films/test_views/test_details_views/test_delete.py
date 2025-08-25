@@ -2,11 +2,11 @@ from collections.abc import Generator
 
 import pytest
 from _pytest.fixtures import SubRequest
+from api.api_v1.film.crud import storage
+from main import app
+from schemas.film import FilmsCreate, FilmsRead
 from starlette import status
 from starlette.testclient import TestClient
-from api.api_v1.film.crud import storage
-from schemas.film import FilmsRead, FilmsCreate
-from main import app
 
 pytestmark = pytest.mark.apitest
 
