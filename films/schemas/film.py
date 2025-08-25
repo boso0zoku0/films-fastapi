@@ -1,7 +1,7 @@
 from typing import Annotated
 
-from annotated_types import MaxLen, MinLen, Len
-from pydantic import BaseModel, AnyHttpUrl
+from annotated_types import Len, MaxLen, MinLen
+from pydantic import AnyHttpUrl, BaseModel
 
 # Film_Annotated_description = Annotated[str, MaxLen(110)]
 # Film_Annotated_slug = Annotated[str, MinLen(3), MaxLen(7)]

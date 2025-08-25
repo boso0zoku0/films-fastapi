@@ -3,12 +3,11 @@ import string
 from typing import Generator
 
 import pytest
-from fastapi.testclient import TestClient
-
 from api.api_v1.auth.services import db_redis_tokens
-from main import app
-from schemas.film import FilmsRead, FilmsCreate, Films
 from api.api_v1.film.crud import storage
+from fastapi.testclient import TestClient
+from main import app
+from schemas.film import Films, FilmsCreate, FilmsRead
 
 
 @pytest.fixture()

@@ -3,10 +3,10 @@ __all__ = ("db_redis_tokens",)
 import secrets
 from typing import cast
 
+from core import config
 from redis import Redis
 
 from api.api_v1.auth.services.tokens_helper import AbstractTokenHelper
-from core import config
 
 
 class RedisTokensHelper(AbstractTokenHelper):

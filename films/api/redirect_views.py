@@ -1,9 +1,8 @@
 from typing import Annotated
 
 from fastapi import APIRouter, Depends
-from starlette.responses import RedirectResponse
-
 from schemas.film import FilmsRead
+from starlette.responses import RedirectResponse
 
 from api.api_v1.dependencies import prefetch_url_film
 
