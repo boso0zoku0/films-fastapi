@@ -1,7 +1,7 @@
 # FastAPI URL Shortener
 
 ## Develop
-
+[![Python checks](https://github.com/boso0zoku0/films-fastapi/actions/workflows/python-checks.yaml/badge.svg)](https://github.com/boso0zoku0/films-fastapi/actions/workflows/python-checks.yaml)
 ### Setup
 
 Right click `url-shortener` -> Mark Directory as -> Sources Root
