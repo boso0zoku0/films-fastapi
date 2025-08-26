@@ -28,7 +28,7 @@ class TestUpdateFilms:
             pytest.param(
                 ("old desc", 2010), "new desc", 2012, id="new desc and year release"
             ),
-            pytest.param(("qdesc", 2019), "desc", 2011, id="new year release"),
+            pytest.param(("qddesc", 2019), "desc", 2011, id="new year release"),
         ],
         indirect=["film"],
     )
