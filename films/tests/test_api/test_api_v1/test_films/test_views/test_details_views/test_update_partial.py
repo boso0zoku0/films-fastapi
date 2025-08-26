@@ -2,13 +2,13 @@ from typing import Generator
 
 import pytest
 from _pytest.fixtures import SubRequest
-from starlette import status
-from starlette.testclient import TestClient
-
 from api.api_v1.film.crud import storage
 from main import app
 from schemas import FilmsCreate
 from schemas.film import DESCRIPTION_MAX_LENGTH
+from starlette import status
+from starlette.testclient import TestClient
+
 from tests.test_api.conftest import create_film_random_slug
 
 

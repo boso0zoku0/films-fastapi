@@ -1,13 +1,12 @@
-import string
 import random
+import string
 from collections.abc import Generator
-from typing import ClassVar, Any, cast
+from typing import Any, ClassVar, cast
 from unittest import TestCase
 
 import pytest
-
-from schemas.film import Films, FilmsCreate, FilmsUpdate, FilmsUpdatePartial, FilmsRead
-from api.api_v1.film.crud import storage, FilmsAlreadyExistsError
+from api.api_v1.film.crud import FilmsAlreadyExistsError, storage
+from schemas.film import Films, FilmsCreate, FilmsRead, FilmsUpdate, FilmsUpdatePartial
 
 
 def creation_film() -> FilmsCreate:

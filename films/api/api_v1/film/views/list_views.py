@@ -1,10 +1,10 @@
 import logging
 
 from fastapi import APIRouter, Depends, HTTPException, status
+from schemas.film import FilmsCreate, FilmsRead
 
 from api.api_v1.dependencies import api_token_or_basic_auth_for_unsafe_methods
 from api.api_v1.film.crud import FilmsAlreadyExistsError, storage
-from schemas.film import FilmsCreate, FilmsRead
 
 log = logging.getLogger(__name__)
 
