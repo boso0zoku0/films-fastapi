@@ -21,3 +21,8 @@ repos:
         args:
           - --fix
           # - --unsafe-fixes
+
+
+
+    skip : [ end-of-file-fixer ]
+
