@@ -56,7 +56,7 @@ def create_film(film_create: FilmsCreate) -> FilmsCreate | None:
     except FilmsAlreadyExistsError:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail=f"Film with slug={film_create.slug} already exists",
+            detail=f"Film with slug = {film_create.slug} already exists",
         )
 
 
