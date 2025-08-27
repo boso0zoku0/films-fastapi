@@ -43,7 +43,7 @@ def show_films() -> list[FilmsRead]:
             "content": {
                 "application/json": {
                     "example": {
-                        "detail": "Film with slug='name' already exists.",
+                        "detail": "Film with slug == 'name' already exists.",
                     },
                 },
             },
