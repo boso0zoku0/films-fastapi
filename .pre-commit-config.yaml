@@ -22,4 +22,3 @@ repos:
           - --fix
           # - --unsafe-fixes
     skip : [ end-of-file-fixer ]
-
