@@ -1,7 +1,8 @@
 import pytest
-from main import app
 from starlette import status
 from starlette.testclient import TestClient
+
+from main import app
 
 
 @pytest.mark.xfail(

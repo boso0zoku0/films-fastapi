@@ -7,9 +7,9 @@ import pytest
 from _pytest.fixtures import SubRequest
 from fastapi import status
 from fastapi.testclient import TestClient
+
 from main import app
 from schemas.film import FilmsCreate, FilmsRead
-
 from tests.test_api.conftest import build_film_create_random_slug, film
 
 
@@ -48,7 +48,7 @@ def test_create_movie_already_exists(film: FilmsRead, auth_client: TestClient) -
     response = auth_client.post(url=url, json=json)
     response_json = response.json()
     assert response.status_code == status.HTTP_409_CONFLICT, response.text
-    expected_error = f"Film with slug={film.slug} already exists"
+    expected_error = f"Film with slug == {film.slug} already exists"
     assert response_json["detail"] == expected_error, response.text
 
 

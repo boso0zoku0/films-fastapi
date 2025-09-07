@@ -1,4 +1,5 @@
 import pytest
+
 from schemas.user import User, UserPost
 
 
