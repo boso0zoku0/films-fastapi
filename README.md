@@ -1,10 +1,10 @@
-# FastAPI URL Shortener
+# FastAPI Films
 
 ## Develop
 
 ### Setup
 
-Right click `url-shortener` -> Mark Directory as -> Sources Root
+Right click `films` -> Mark Directory as -> Sources Root
 
 
 ### Install depencies
@@ -25,7 +25,7 @@ pre-commit install
 
 Go to workdir:
 ```shell
-cd url-shortener
+cd films
 ```
 
 Run dev server:
