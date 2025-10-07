@@ -30,7 +30,7 @@ router = APIRouter(
 
 @router.get("/")
 def show_films() -> list[FilmsRead]:
-    return storage.get_films()
+    return storage.get()
 
 
 @router.post(

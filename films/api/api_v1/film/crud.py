@@ -1,12 +1,13 @@
 __all__ = ("storage", "FilmsAlreadyExistsError")
 
 import logging
+from collections.abc import Iterable
 from typing import cast
 
 from pydantic import BaseModel
 from redis import Redis
 
-from core import config
+from core.config import settings
 from schemas.film import (
     FilmsCreate,
     FilmsRead,
@@ -18,9 +19,9 @@ log = logging.getLogger(__name__)
 
 
 redis = Redis(
-    host=config.REDIS_HOST,
-    port=config.REDIS_PORT,
-    db=config.REDIS_DB_FILMS,
+    host=settings.redis.connection.host,
+    port=settings.redis.connection.port,
+    db=settings.redis.db.films,
     decode_responses=True,
 )
 
@@ -35,29 +36,30 @@ class FilmsAlreadyExistsError(FilmsBaseError):
 
 class FilmsStorage(BaseModel):
     slug_by_films: dict[str, FilmsRead] = {}
+    name_db: str
 
-    @classmethod
-    def save_films(cls, film: FilmsCreate) -> None:
+    def save_films(self, film: FilmsCreate) -> None:
         redis.hset(
-            name=config.REDIS_FILMS_HASH_NAME,
+            name=self.name_db,
             key=film.slug,
             value=film.model_dump_json(),
         )
 
-    @classmethod
-    def get_films(cls) -> list[FilmsRead]:
-        return cast(
-            list[FilmsRead],
-            [
-                FilmsRead.model_validate_json(value)
-                for value in redis.hvals(name=config.REDIS_FILMS_HASH_NAME)
-            ],
-        )
+    def get(self) -> list[FilmsRead]:
+        return [
+            FilmsRead.model_validate_json(value)
+            for value in cast(
+                Iterable[str],
+                redis.hvals(
+                    name=self.name_db,
+                ),
+            )
+        ]
 
-    @classmethod
-    def get_by_slug(cls, slug: str) -> FilmsCreate | None:
+    def get_by_slug(self, slug: str) -> FilmsCreate | None:
         get_data = cast(
-            str | None, redis.hget(name=config.REDIS_FILMS_HASH_NAME, key=slug)
+            str | None,
+            redis.hget(name=self.name_db, key=slug),
         )
         if get_data:
             return FilmsCreate.model_validate_json(get_data)
@@ -69,18 +71,19 @@ class FilmsStorage(BaseModel):
         log.info("Created film: %s", add_film)
         return add_film
 
-    @classmethod
-    def exists(cls, slug: str) -> bool:
-        return cast(bool, redis.hexists(name=config.REDIS_FILMS_HASH_NAME, key=slug))
+    def exists(self, slug: str) -> bool:
+        return cast(
+            bool,
+            redis.hexists(name=self.name_db, key=slug),
+        )
 
     def create_or_raise_if_exists(self, film: FilmsCreate) -> FilmsCreate:
         if not self.exists(film.slug):
             return storage.create_film(film)
         raise FilmsAlreadyExistsError(film.slug)
 
-    @classmethod
-    def delete_by_slug(cls, slug: str) -> None:
-        redis.hdel(config.REDIS_FILMS_HASH_NAME, slug)
+    def delete_by_slug(self, slug: str) -> None:
+        redis.hdel(self.name_db, slug)
         log.info("Deleted film: %s", slug)
 
     def delete(self, film_url: FilmsCreate) -> None:
@@ -103,4 +106,6 @@ class FilmsStorage(BaseModel):
         return film
 
 
-storage: FilmsStorage = FilmsStorage()
+storage: FilmsStorage = FilmsStorage(
+    name_db=settings.redis.collections_names.films_hash
+)

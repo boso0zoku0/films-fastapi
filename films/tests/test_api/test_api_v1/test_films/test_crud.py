@@ -77,7 +77,7 @@ class FilmsStorageGetTestCase(TestCase):
             storage.delete(film)
 
     def test_get_list(self) -> None:
-        storage_get = storage.get_films()
+        storage_get = storage.get()
         storage_class_get = self.films
         expected_slugs = {su.slug for su in self.films}
         slugs = {su.slug for su in storage_get}

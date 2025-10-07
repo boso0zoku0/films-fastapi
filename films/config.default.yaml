@@ -1,0 +1,3 @@
+films:
+  logging:
+    log_level_name: INFO
