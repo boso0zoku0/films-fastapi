@@ -3,7 +3,7 @@ import logging
 from fastapi import FastAPI
 
 from api import router as api_router
-from api.main_views import router as main_views_router
+from rest.main_views import router as main_views_router
 from api.redirect_views import router as redirect_views_router
 from app_lifespan import lifespan
 from core.config import settings

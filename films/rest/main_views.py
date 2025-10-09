@@ -6,10 +6,8 @@ from templating import templates
 router = APIRouter()
 
 
-@router.get("/home", response_class=HTMLResponse, include_in_schema=False, name="home")
-def home_page(
-    request: Request,
-) -> HTMLResponse:
+@router.get("/home", response_class=HTMLResponse, name="home")
+def home_page(request: Request) -> HTMLResponse:
     context = []
     features = ["Short link generation", "Contact the author", "Paid plan"]
     context.append(features)
@@ -20,9 +18,7 @@ def home_page(
     )
 
 
-@router.get(
-    "/about/", response_class=HTMLResponse, include_in_schema=False, name="about"
-)
+@router.get("/about/", response_class=HTMLResponse, name="about")
 def about_page(request: Request) -> HTMLResponse:
     return templates.TemplateResponse(
         request=request,
