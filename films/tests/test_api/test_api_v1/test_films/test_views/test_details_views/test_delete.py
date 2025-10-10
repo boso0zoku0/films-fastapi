@@ -1,13 +1,11 @@
-from collections.abc import Generator
-
 import pytest
 from _pytest.fixtures import SubRequest
 from starlette import status
 from starlette.testclient import TestClient
 
-from api.api_v1.film.crud import storage
 from main import app
-from schemas.film import FilmsCreate, FilmsRead
+from schemas.film import FilmsCreate
+from storage.films.crud import storage
 
 pytestmark = pytest.mark.apitest
 
@@ -15,7 +13,6 @@ pytestmark = pytest.mark.apitest
 def create_film(slug: str) -> FilmsCreate:
     film_in = FilmsCreate(
         name="dwq",
-        target_url="https://example.com",
         description="A film",
         year_release=1999,
         slug=slug,

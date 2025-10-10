@@ -1,7 +1,8 @@
 from unittest import TestCase
 
 from api.api_v1.dependencies import UNSAFE_METHODS, prefetch_url_film
-from api.api_v1.film.crud import storage
+from dependencies.short_urls import GetFilmsStorage
+from storage.films.crud import storage
 
 
 class DependsTestCase(TestCase):
@@ -9,7 +10,7 @@ class DependsTestCase(TestCase):
     def test_prefetch_url_film(self) -> None:
         slugs = {su.slug for su in storage.get()}
         for slug in slugs:
-            prefetch_url_film(slug)
+            prefetch_url_film(slug=slug)
 
 
 class TestUnsafeMethods(TestCase):

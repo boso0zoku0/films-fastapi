@@ -1,4 +1,7 @@
-__all__ = ("storage", "FilmsAlreadyExistsError")
+__all__ = (
+    "storage",
+    "FilmsStorage",
+)
 
 import logging
 from collections.abc import Iterable
@@ -14,6 +17,7 @@ from schemas.film import (
     FilmsUpdate,
     FilmsUpdatePartial,
 )
+from storage.films.exceptions import FilmsAlreadyExistsError
 
 log = logging.getLogger(__name__)
 
@@ -24,14 +28,6 @@ redis = Redis(
     db=settings.redis.db.films,
     decode_responses=True,
 )
-
-
-class FilmsBaseError(Exception):
-    pass
-
-
-class FilmsAlreadyExistsError(FilmsBaseError):
-    pass
 
 
 class FilmsStorage(BaseModel):

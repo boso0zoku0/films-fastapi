@@ -4,9 +4,9 @@ from fastapi import APIRouter, Depends
 from starlette import status
 
 from api.api_v1.dependencies import prefetch_url_film
-from api.api_v1.film.crud import storage
 from schemas import FilmsCreate
 from schemas.film import FilmsRead, FilmsUpdate, FilmsUpdatePartial
+from storage.films.crud import storage
 
 router = APIRouter(
     prefix="/{slug}",
