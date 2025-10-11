@@ -11,13 +11,10 @@
 </header>
 <body>
 
-{% block main %}
-<main class="container">
-<h2 class="header-center">Welcome to the documentation for my site</h2>
-<a class="ms-3 mt-3" href="/docs">DOCS</a>
+<main class="container my-3">
+  {% block main %}
+  {% endblock %}
 </main>
-{% endblock %}
-
 {% block footer %}
 <footer class="my-4">
   &copy; {{ today.year }} Bosozoku

@@ -5,7 +5,7 @@ from fastapi.responses import HTMLResponse
 
 from templating import templates
 
-router = APIRouter()
+router = APIRouter(include_in_schema=False)
 
 
 @router.get("/home", response_class=HTMLResponse, name="home")

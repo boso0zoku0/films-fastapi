@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Create new film
+{% endblock %}
+{% block main %}
+  <h2>Create a new film</h2>
+  <code>{{ model_schema }}</code>
+  <div class="row">
+  <div class="col col-12 col-md-6 col-lg-4">
+  <form action="{{url_for('films:create-view')}}" method="post">
+    {% for field_name, field_schema in model_schema.properties.items() %}
+      {% set is_required = field_name in (model_schema.get('required') or []) %}
+    <div class="mb-3">
+      <label for="{{field_name}}" class="form-label">{{field_schema.title}}</label>
+      <input id="{{field_name}}"
+        name="{{field_name}}"
+        {%if is_required%} required {% endif %}
+        {% if field_schema.get('minLength') != None%}minLength="{{field_schema.minLength}}"{% endif %}
+        {% if field_schema.get('maxLength') != None%}maxLength="{{field_schema.maxLength}}"{% endif %}
+        type="text" class="form-control"
+      >
+    </div>
+    {% endfor %}
+
+    <input type="submit" value="Create" class="btn btn-primary">
+  </form>
+  </div>
+  </div>
+{% endblock %}
+{#<div class="row">#}
+{#<div class="col col-12 col-md-6 col-lg-4">#}
+{#<form action="">#}
+{#  <div class="mb-3">#}
+{#    <label for="formFile" class="form-label">Default file input example</label>#}
+{#    <input class="form-control" type="file" id="formFile">#}
+{#  </div>#}
+{#  <input type="submit" value="Create" class="btn btn-primary">#}
+{#</form>#}
+{#</div>#}
+{#</div>#}
+{##}
+{#{% endblock %}#}
+{#<div class="row">#}
+{#  <div class="col col-12 col-md-6 col-lg-4">#}
+{#    <form action="">#}
+{#      <div class="mb-3">#}
+{#  <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>#}
+{#  <div class="col-sm-10">#}
+{#    <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com">#}
+{#  </div>#}
+{#</div>#}
