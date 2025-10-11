@@ -98,7 +98,7 @@ class FilmsComplicatedTestCase(TestCase):
         with self.assertRaises(ValidationError):
             FilmsCreate(
                 name="test_film",
-                slug="qweabc",
+                slug="qweabdsfc",
                 description="This string contains more than thirty alphabetic characters.",
                 year_release=1999,
             )
@@ -107,12 +107,19 @@ class FilmsComplicatedTestCase(TestCase):
 
         with self.assertRaisesRegex(
             ValidationError,
-            expected_regex="String should have at most 30 characters",
+            expected_regex="String should have at most 300 characters",
         ) as exc_info:
             FilmsCreate(
                 name="test_film",
                 slug="qweabc",
-                description="This string contains more than thirty.",
+                description="Cooper /Matthew McConaughey/ is a spaceship pilot who went on an expedition "
+                "to find new planets for life, where humanity can move from the dying Earth.Cooper "
+                "/Matthew McConaughey/ is a spaceship pilot who went on an expedition to find "
+                "new planets for life, where humanity can move from the dying Earth. Cooper /Matthew "
+                "McConaughey/ is a spaceship pilot who went on an expedition "
+                "to find new planets for life, where humanity can move from the dying Earth.Cooper "
+                "/Matthew McConaughey/ is a spaceship pilot who went on an expedition to find "
+                "new planets for life, where humanity can move from the dying Earth.",
                 year_release=1999,
             )
 

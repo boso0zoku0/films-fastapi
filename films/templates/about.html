@@ -10,3 +10,9 @@
   <a href="https://www.youtube.com/@BOSOZOKU-v2j" class="d-inline-flex focus-ring focus-ring-primary py-1 px-2 mt-5 text-decoration-none border rounded-2">YouTube</a>
   </div>
 {% endblock %}
+
+{% block audio %}
+<audio controls>
+  {{ get_audio_welcome }}
+</audio>
+{% endblock %}

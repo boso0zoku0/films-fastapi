@@ -1,6 +1,7 @@
 {% set navigation = [
   ('home', 'Home'),
   ('about', 'About'),
+  ('films', 'List films'),
 ]%}
 
 <nav class="navbar navbar-expand bg-body-tertiary">
@@ -21,13 +22,10 @@
                 class="nav-link"
               {% endif %}
             href="/{{ name }}">{{ title }}</a>
-
+s
           </li>
         {% endfor %}
       </ul>
     </div>
   </div>
 </nav>
-
-
-.

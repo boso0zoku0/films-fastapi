@@ -1,3 +1,5 @@
+import os
+
 from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse
 
@@ -20,9 +22,13 @@ def home_page(request: Request) -> HTMLResponse:
 
 @router.get("/about/", response_class=HTMLResponse, name="about")
 def about_page(request: Request) -> HTMLResponse:
+    context: dict[str, str] = {}
+    get_audio_welcome = os.path.join(os.getcwd(), "welcomeSite.mp3")
+    context.update(get_audio_welcome=get_audio_welcome)
     return templates.TemplateResponse(
         request=request,
         name="about.html",
+        context=context,
     )
 
 

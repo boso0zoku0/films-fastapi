@@ -10,7 +10,7 @@ class DependsTestCase(TestCase):
     def test_prefetch_url_film(self) -> None:
         slugs = {su.slug for su in storage.get()}
         for slug in slugs:
-            prefetch_url_film(slug=slug)
+            prefetch_url_film(slug=slug, storage=storage)
 
 
 class TestUnsafeMethods(TestCase):
