@@ -51,7 +51,7 @@ class FilmsBase(BaseModel):
 
 
 class FilmsCreate(FilmsBase):
-    slug: Film_Annotated_slug
+    slug: Film_Annotated_slug = ""
 
 
 class Films(FilmsBase):

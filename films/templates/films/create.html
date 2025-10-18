@@ -1,52 +1,28 @@
 {% extends 'base.html' %}
-
+{% from 'macro/form_field.html' import form_field %}
 {% block title %}
   Create new film
 {% endblock %}
-{% block main %}
-  <h2>Create a new film</h2>
-  <code>{{ model_schema }}</code>
-  <div class="row">
-  <div class="col col-12 col-md-6 col-lg-4">
-  <form action="{{url_for('films:create-view')}}" method="post">
-    {% for field_name, field_schema in model_schema.properties.items() %}
-      {% set is_required = field_name in (model_schema.get('required') or []) %}
-    <div class="mb-3">
-      <label for="{{field_name}}" class="form-label">{{field_schema.title}}</label>
-      <input id="{{field_name}}"
-        name="{{field_name}}"
-        {%if is_required%} required {% endif %}
-        {% if field_schema.get('minLength') != None%}minLength="{{field_schema.minLength}}"{% endif %}
-        {% if field_schema.get('maxLength') != None%}maxLength="{{field_schema.maxLength}}"{% endif %}
-        type="text" class="form-control"
-      >
-    </div>
-    {% endfor %}
 
-    <input type="submit" value="Create" class="btn btn-primary">
-  </form>
+{% block main %}
+<h2>Create a new film</h2>
+<div class="row">
+  <div class="col col-12 col-md-6 col-lg-4">
+    <form action="{{ url_for('films:create') }}" method="post">
+      {% for field_name, field_schema in model_schema.properties.items() %}
+        {% set is_required = field_name in (model_schema.get('required') or []) %}
+        {{ form_field(field_name=field_name, field_schema=field_schema, is_required=is_required,
+           validated=form_validated, value=form_data and form_data[field_name] or field_schema.default,
+           error=errors and errors[field_name] or None) }}
+      {% endfor %}
+      <input type="submit" value="Create" class="btn btn-primary mt-3">
+    </form>
   </div>
-  </div>
+  {% if validated %}
+    {% if errors %}
+    <div class="invalid-feedback">{{ errors }}</div>
+  {% endif %}
+  {% endif %}
+</div>
+<a class="btn btn-secondary mt-5" href="{{ url_for('films:list') }}">Back</a>
 {% endblock %}
-{#<div class="row">#}
-{#<div class="col col-12 col-md-6 col-lg-4">#}
-{#<form action="">#}
-{#  <div class="mb-3">#}
-{#    <label for="formFile" class="form-label">Default file input example</label>#}
-{#    <input class="form-control" type="file" id="formFile">#}
-{#  </div>#}
-{#  <input type="submit" value="Create" class="btn btn-primary">#}
-{#</form>#}
-{#</div>#}
-{#</div>#}
-{##}
-{#{% endblock %}#}
-{#<div class="row">#}
-{#  <div class="col col-12 col-md-6 col-lg-4">#}
-{#    <form action="">#}
-{#      <div class="mb-3">#}
-{#  <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>#}
-{#  <div class="col-sm-10">#}
-{#    <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com">#}
-{#  </div>#}
-{#</div>#}

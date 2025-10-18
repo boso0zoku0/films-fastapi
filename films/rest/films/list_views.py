@@ -9,7 +9,9 @@ from templating import templates
 router = APIRouter()
 
 
-@router.get("/", include_in_schema=False, name="films", response_class=HTMLResponse)
+@router.get(
+    "/", include_in_schema=False, name="films:list", response_class=HTMLResponse
+)
 def list_films(request: Request, storage: GetFilmsStorage) -> HTMLResponse:
     context: dict[str, Any] = {}
     films = storage.get()

@@ -10,6 +10,7 @@
           <th scope="col">Name</th>
           <th scope="col">Description</th>
           <th scope="col">Year release</th>
+          <th scope="col">Slug</th>
         </tr>
         </thead>
         <tbody>
@@ -26,12 +27,14 @@
                 <code>-</code>
               {% endif %}
             </td>
+            <td>{{ film.slug }}</td>
           </tr>
         {% endfor %}
         </tbody>
       </table>
     </div>
   {% else %}
-    <h2>No films yet</h2>
+    <h2>No films yet, but your can add their</h2>
+    <a href="{{ url_for('films:create-view') }}">Click</a>
   {% endif %}
 {% endblock %}
