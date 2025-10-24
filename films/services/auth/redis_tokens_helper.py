@@ -5,8 +5,8 @@ from typing import cast
 
 from redis import Redis
 
-from api.api_v1.auth.services.tokens_helper import AbstractTokenHelper
 from core.config import settings
+from services.auth.tokens_helper import AbstractTokenHelper
 
 
 class RedisTokensHelper(AbstractTokenHelper):

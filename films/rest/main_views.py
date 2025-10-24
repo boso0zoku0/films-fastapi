@@ -22,13 +22,9 @@ def home_page(request: Request) -> HTMLResponse:
 
 @router.get("/about/", response_class=HTMLResponse, name="about")
 def about_page(request: Request) -> HTMLResponse:
-    audio_url = request.url_for("static", path="welcomeSite.mp3")
-    context: dict[str, str] = {}
-    context.update(audio_src=str(audio_url))
     return templates.TemplateResponse(
         request=request,
         name="about.html",
-        context=context,
     )
 
 

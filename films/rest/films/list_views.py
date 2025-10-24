@@ -3,7 +3,7 @@ from typing import Any
 from fastapi import APIRouter, Request
 from starlette.responses import HTMLResponse
 
-from dependencies.short_urls import GetFilmsStorage
+from dependencies.films import GetFilmsStorage
 from templating import templates
 
 router = APIRouter()

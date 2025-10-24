@@ -5,9 +5,9 @@ from typing import Generator
 import pytest
 from fastapi.testclient import TestClient
 
-from api.api_v1.auth.services import db_redis_tokens
 from main import app
 from schemas.film import FilmsCreate
+from services.auth import db_redis_tokens
 from storage.films.crud import storage
 
 
