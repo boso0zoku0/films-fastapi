@@ -1,0 +1,10 @@
+{% include 'base.html' %}
+{% from 'films/macro/form.html' import render_form with context %}
+{% from 'macro/form_field.html' import form_field %}
+
+<title>Update Film</title>
+<main class="container my-3">
+<h2>Update film <code>{{ film.slug }}</code></h2>
+  {{ render_form(action=url_for('films:update-views', slug=film.slug), value_button='Update') }}
+{% include 'films/components/back-to-list.html' %}
+</main>

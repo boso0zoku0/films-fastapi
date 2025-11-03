@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% from 'films/macro/form.html' import render_form with context %}
 {% from 'macro/form_field.html' import form_field %}
 {% block title %}
   Create new film
@@ -6,23 +7,6 @@
 
 {% block main %}
 <h2>Create a new film</h2>
-<div class="row">
-  <div class="col col-12 col-md-6 col-lg-4">
-    <form action="{{ url_for('films:create') }}" method="post">
-      {% for field_name, field_schema in model_schema.properties.items() %}
-        {% set is_required = field_name in (model_schema.get('required') or []) %}
-        {{ form_field(field_name=field_name, field_schema=field_schema, is_required=is_required,
-           validated=form_validated, value=form_data and form_data[field_name] or field_schema.default,
-           error=errors and errors[field_name] or None) }}
-      {% endfor %}
-      <input type="submit" value="Create" class="btn btn-primary mt-3">
-    </form>
-  </div>
-  {% if validated %}
-    {% if errors %}
-    <div class="invalid-feedback">{{ errors }}</div>
-  {% endif %}
-  {% endif %}
-</div>
-<a class="btn btn-secondary mt-5" href="{{ url_for('films:list') }}">Back</a>
+  {{ render_form(action=url_for('films:create'), value_button='Create') }}
+  {% include 'films/components/back-to-list.html' %}
 {% endblock %}

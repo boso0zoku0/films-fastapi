@@ -1,8 +1,7 @@
 from unittest import TestCase
 
-from api.api_v1.dependencies import prefetch_url_film
 from dependencies.auth import UNSAFE_METHODS
-from dependencies.films import GetFilmsStorage
+from dependencies.films import GetFilmsStorage, prefetch_url_film
 from storage.films.crud import storage
 
 

@@ -1,9 +1,9 @@
 from typing import Annotated, cast
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from starlette import status
 
-from api.api_v1.dependencies import prefetch_url_film
+from dependencies.films import FilmBySlug, prefetch_url_film
 from schemas import FilmsCreate
 from schemas.film import FilmsRead, FilmsUpdate, FilmsUpdatePartial
 from storage.films.crud import storage
@@ -23,8 +23,6 @@ router = APIRouter(
         },
     },
 )
-
-FilmBySlug = Annotated[FilmsCreate, Depends(prefetch_url_film)]
 
 
 @router.get("/")

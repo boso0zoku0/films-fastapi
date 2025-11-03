@@ -33,6 +33,7 @@ class FormHelper:
         errors: dict[str, str] | None = None,
         pydantic_error: ValidationError | None = None,
         form_validated: bool = False,
+        **context_extra: Any,
     ) -> HTMLResponse:
         context: dict[str, Any] = {}
         model_schema = self.model_schema.model_json_schema()
@@ -46,6 +47,7 @@ class FormHelper:
             errors=errors,
             form_data=form_data,
         )
+        context.update(context_extra)
         return templates.TemplateResponse(
             request=request,
             name=self.template_name,

@@ -12,7 +12,6 @@ from fastapi.security import (
 )
 
 from dependencies.auth import UNSAFE_METHODS, basic_credentials, validate_basic_auth
-from dependencies.films import GetFilmsStorage
 from schemas import FilmsCreate
 from services.auth.redis_tokens_helper import db_redis_tokens
 from services.auth.redis_users_helper import db_redis_users
@@ -25,15 +24,6 @@ static_token = HTTPBearer(
     description="Your Static API token from the developer portal",
     auto_error=False,
 )
-
-
-def prefetch_url_film(slug: str, storage: GetFilmsStorage) -> FilmsCreate | None:
-    url: FilmsCreate | None = storage.get_by_slug(slug=slug)
-    if url:
-        return url
-    raise HTTPException(
-        status_code=status.HTTP_404_NOT_FOUND, detail=f"Film {slug!r} not found"
-    )
 
 
 def get_film_by_slug_exc(

@@ -1,6 +1,7 @@
 import logging
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from starlette.responses import RedirectResponse, Response
 
 from api import router as api_router
 from api.redirect_views import router as redirect_views_router
@@ -13,6 +14,7 @@ logging.basicConfig(
     level=settings.logging.log_level_name,
     datefmt=settings.logging.date_format,
 )
+
 app = FastAPI(lifespan=lifespan)
 app.include_router(router=api_router)
 app.include_router(router=redirect_views_router)

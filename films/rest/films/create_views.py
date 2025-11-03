@@ -40,7 +40,8 @@ async def create_films(
 
     else:
         return RedirectResponse(
-            url=request.url_for("films:list"), status_code=status.HTTP_303_SEE_OTHER
+            url=request.url_for("films:list"),
+            status_code=status.HTTP_303_SEE_OTHER,
         )
 
     return form_helper.render(
